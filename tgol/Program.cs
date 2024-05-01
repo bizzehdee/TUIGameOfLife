@@ -10,6 +10,7 @@ namespace tgol
             var availableGames = new List<GameData>();
             int[,]? currentGameData;
             GameData? selectedGame;
+            var gameSpeed = 200;
 
             if (!Directory.Exists("data"))
             {
@@ -52,6 +53,8 @@ namespace tgol
 
             AnsiConsole.WriteLine($"Selected {selectedGame.Name} ({selectedGame.Width} x {selectedGame.Height})");
 
+            gameSpeed = selectedGame.GameSpeedMS;
+
             if (selectedGame.Width / 2 > Console.WindowWidth || selectedGame.Height > Console.WindowHeight)
             {
                 var windowAnswer = AnsiConsole.Prompt(
@@ -69,6 +72,12 @@ namespace tgol
                 {
                     Console.SetWindowSize(selectedGame.Width * 2, selectedGame.Height);
                 }
+            }
+
+            var changeDelayAnswer = AnsiConsole.Ask<string>($"Game delay is currently {gameSpeed}ms, do you want to change it? (y/n)");
+            if (changeDelayAnswer.Equals("y", StringComparison.OrdinalIgnoreCase))
+            {
+                gameSpeed = AnsiConsole.Ask<int>($"What do you want the interval time to be in ms?");
             }
 
             currentGameData = new int[selectedGame.Height, selectedGame.Width];
@@ -100,7 +109,7 @@ namespace tgol
                         UpdateUI(selectedGame.Width, selectedGame.Height, currentGameData, gameCanvas);
                         ctx.Refresh();
 
-                        await Task.Delay(selectedGame.GameSpeedMS);
+                        await Task.Delay(gameSpeed);
 
                         UpdateGame(selectedGame.Width, selectedGame.Height, currentGameData);
 
