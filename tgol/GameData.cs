@@ -12,6 +12,7 @@ namespace tgol
         public int Width { get; set; }
         public int Height { get; set; }
         public int[] Data { get; set; }
+        public int GameSpeedMS {  get; set; }
 
         public override string ToString()
         {

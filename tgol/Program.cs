@@ -100,7 +100,7 @@ namespace tgol
                         UpdateUI(selectedGame.Width, selectedGame.Height, currentGameData, gameCanvas);
                         ctx.Refresh();
 
-                        await Task.Delay(250);
+                        await Task.Delay(selectedGame.GameSpeedMS);
 
                         UpdateGame(selectedGame.Width, selectedGame.Height, currentGameData);
 
