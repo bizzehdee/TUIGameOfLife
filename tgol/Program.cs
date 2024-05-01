@@ -122,10 +122,29 @@ namespace tgol
 
         private static int GetCurrentState(int x, int y, int gameWidth, int gameHeight, int[,] gameData)
         {
-            if (x < 0 || y < 0) { return 0; } // below the lower bounds of the game grid, so, dead
-            if (x >= gameWidth || y >= gameHeight) { return 0; } // above the upper bounds of the game grid, also dead
+            int realX = x; int realY = y;
 
-            return gameData[y, x]; //we are within the game grid, so get whatever we need
+            //do wrap-around for x
+            if (x == -1)
+            {
+                realX = gameWidth - 1;
+            }
+            else if (x == gameWidth)
+            {
+                realX = 0;
+            }
+
+            //do wrap-around for y
+            if (y == -1)
+            {
+                realY = gameHeight - 1;
+            }
+            else if (y == gameHeight)
+            {
+                realY = 0;
+            }
+            
+            return gameData[realY, realX]; //we are within the game grid, so get whatever we need
         }
 
         public static int GetNeighbourCount(int x, int y, int gameWidth, int gameHeight, int[,] gameData)
